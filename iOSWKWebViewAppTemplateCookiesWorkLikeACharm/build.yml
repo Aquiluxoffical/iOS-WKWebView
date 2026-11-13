@@ -1,0 +1,31 @@
+name: Build iOS App
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      
+      - name: Build IPA (Unsigned)
+        run: |
+          # Automatically find the .xcodeproj file in the repository
+          PROJECT_FILE=$(ls *.xcodeproj | head -n 1)
+          PROJECT_NAME=$(basename "$PROJECT_FILE" .xcodeproj)
+          
+          echo "Building project: $PROJECT_NAME"
+          
+          xcodebuild clean build -project "$PROJECT_FILE" -scheme "$PROJECT_NAME" -configuration Release CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO CODE_SIGNING_ALLOWED=NO -derivedDataPath build
+          
+          mkdir -p Payload
+          mv build/Build/Products/Release-iphoneos/*.app Payload/
+          zip -r Streamify.ipa Payload
+      
+      - name: Upload App Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Streamify-IPA
+          path: Streamify.ipa
