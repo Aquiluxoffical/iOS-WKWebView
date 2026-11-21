@@ -22,8 +22,8 @@
 		A28AD83526CCA34E00BE1813 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		A28AD83826CCA34E00BE1813 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		A28AD83A26CCA35000BE1813 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		A28AD83D26CCA35000BE1813 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		A28AD83F26CCA35000BE1813 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A28AD83D26CCA34E00BE1813 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		A28AD83F26CCA34E00BE1813 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +62,7 @@
 				A28AD83726CCA34E00BE1813 /* Main.storyboard */,
 				A28AD83A26CCA35000BE1813 /* Assets.xcassets */,
 				A28AD83C26CCA35000BE1813 /* LaunchScreen.storyboard */,
-				A28AD83F26CCA35000BE1813 /* Info.plist */,
+				A28AD83F26CCA34E00BE1813 /* Info.plist */,
 			);
 			path = iOSWKWebViewAppTemplateCookiesWorkLikeACharm;
 			sourceTree = "<group>";
@@ -157,7 +157,7 @@
 		A28AD83C26CCA35000BE1813 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				A28AD83D26CCA35000BE1813 /* Base */,
+				A28AD83D26CCA34E00BE1813 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -293,8 +293,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompanyname.iOSWKWebViewAppTemplateCookiesWorkLikeACharm;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.streamify.app;
+				PRODUCT_NAME = Streamify;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -312,8 +312,8 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.yourcompanyname.iOSWKWebViewAppTemplateCookiesWorkLikeACharm;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.streamify.app;
+				PRODUCT_NAME = Streamify;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
