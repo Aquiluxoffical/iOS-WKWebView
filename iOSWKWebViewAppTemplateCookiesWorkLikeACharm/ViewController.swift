@@ -19,24 +19,38 @@ extension ViewController: WKScriptMessageHandler {
 
 class ViewController: UIViewController {
     
-    private let webView = WKWebView(frame: .zero)
+    private var webView: WKWebView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let app = UIApplication.shared
-        let statusBarHeight: CGFloat = app.statusBarFrame.size.height
+        // 1. Background solid black set karein (pink aur white flash hatane ke liye)
+        view.backgroundColor = .black
         
-        let statusbarView = UIView()
-        statusbarView.backgroundColor = UIColor(red: 0.93, green: 0, blue: 1, alpha: 1)
-        view.addSubview(statusbarView)
+        // 2. WKWebView ko background & inline media playback ke liye configure karein
+        let config = WKWebViewConfiguration()
+        config.allowsInlineMediaPlayback = true
+        config.mediaTypesRequiringUserActionForPlayback = []
+        config.allowsAirPlayForMediaPlayback = true
+        config.userContentController.add(self, name: "myHandler")
         
-        statusbarView.translatesAutoresizingMaskIntoConstraints = false
-        statusbarView.heightAnchor.constraint(equalToConstant: statusBarHeight).isActive = true
-        statusbarView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.0).isActive = true
-        statusbarView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        statusbarView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        let source: String = "var meta = document.createElement('meta');" +
+            "meta.name = 'viewport';" +
+            "meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';" +
+            "var head = document.getElementsByTagName('head')[0];" +
+            "head.appendChild(meta);"
+        let script = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
+        config.userContentController.addUserScript(script)
         
+        webView = WKWebView(frame: .zero, configuration: config)
+        webView.isOpaque = false
+        webView.backgroundColor = .black
+        webView.scrollView.backgroundColor = .black
         webView.translatesAutoresizingMaskIntoConstraints = false
+        if #available(iOS 16.4, *) {
+            webView.isInspectable = true
+        }
+        
         self.view.addSubview(self.webView)
         NSLayoutConstraint.activate([
             self.webView.leftAnchor.constraint(equalTo: self.view.leftAnchor),
@@ -44,35 +58,31 @@ class ViewController: UIViewController {
             self.webView.rightAnchor.constraint(equalTo: self.view.rightAnchor),
             self.webView.topAnchor.constraint(equalTo: self.view.topAnchor),
         ])
-        self.view.setNeedsLayout()
         
-        // --- URL UPDATE 1/2 (Yahan aapka music link daal diya gaya hai) ---
+        // 3. Status bar background ko pink se black kar diya gaya hai
+        let statusBarHeight: CGFloat = UIApplication.shared.statusBarFrame.size.height
+        let statusbarView = UIView()
+        statusbarView.backgroundColor = .black
+        statusbarView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(statusbarView)
+        
+        NSLayoutConstraint.activate([
+            statusbarView.heightAnchor.constraint(equalToConstant: statusBarHeight),
+            statusbarView.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1.0),
+            statusbarView.topAnchor.constraint(equalTo: view.topAnchor),
+            statusbarView.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+        
+        // 4. Aapka Music URL load karein
         if let url = URL(string: "https://aquiluxoffical.github.io/Music/") {
             let request = URLRequest(url: url)
             webView.load(request)
-            
-            webView.isInspectable = true
-            webView.configuration.userContentController.add(self, name: "myHandler")
-            let helloWorldScript = "window.webkit.messageHandlers.myHandler/postMessage('Hello World!');"
-            webView.evaluateJavaScript(helloWorldScript, completionHandler: nil)
-            
-            let source: String = "var meta = document.createElement('meta');" +
-                "meta.name = 'viewport';" +
-                "meta.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';" +
-                "var head = document.getElementsByTagName('head')[0];" +
-                "head.appendChild(meta);"
-            
-            let script: WKUserScript = WKUserScript(source: source, injectionTime: .atDocumentEnd, forMainFrameOnly: true)
-            webView.configuration.userContentController.addUserScript(script)
         }
         
-        self.view.bringSubviewToFront(statusbarView);
+        self.view.bringSubviewToFront(statusbarView)
     }
     
-    override var preferredStatusBarStyle : UIStatusBarStyle {
-        return UIStatusBarStyle.lightContent
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
     }
 }
-
-// --- URL UPDATE 2/2 (File ke end mein bhi URL update kar diya gaya hai) ---
-let url = URL(string: "https://aquiluxoffical.github.io/Music/")!
