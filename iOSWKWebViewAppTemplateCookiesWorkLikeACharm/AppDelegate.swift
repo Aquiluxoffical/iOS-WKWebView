@@ -19,6 +19,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             print("Failed to set audio session category: \(error)")
         }
         
+        // Lock screen aur Control Center controls enable karne ke liye
+        application.beginReceivingRemoteControlEvents()
+        
         return true
     }
 
